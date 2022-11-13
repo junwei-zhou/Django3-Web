@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<script src="{% static 'jquery.js' %}"></script>
+<script>
+$(function(){
+  $("#bt01").click(function(){
+    var value = $.ajax({
+        type: "GET",
+        url:"/getHeader",
+        dataType:'json',
+        async: false,
+        headers: {
+            "sign":"123",
+        }
+        }).responseJSON;
+        value = '<h2>'+value["header"]+'</h2>';
+        $("#myDiv").html(value);
+    });
+});
+</script>
+<body>
+<h3>Hello Headers</h3>
+<div id="myDiv"><h2>AJAX获取请求头</h2></div>
+<button id="bt01" type="button">改变内容</button>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load i18n %}
+    <title>{% trans "Choice language" %}</title>
+</head>
+<body>
+<div>
+    {#将配置属性LANGUAGES进行列举，显示网站支持的语言#}
+    {% get_available_languages as languages %}
+    {% trans "Choice language" %}
+    {% for lang_code, lang_name in languages %}
+        {% language lang_code %}
+            <a href="{% url 'index:index'%}">{{ lang_name }}</a>
+        {% endlanguage %}
+    {% endfor %}
+</div>
+<br>
+<div>
+{% blocktrans %}
+    The language is {{ language }}
+{% endblocktrans %}
+</div>
+</body>
+</html>

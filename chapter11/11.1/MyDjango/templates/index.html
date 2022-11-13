@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>商城首页</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/hw_index.css" %}">
+</head>
+<body>
+<div id="top_main">
+    <div class="lf" id="my_hw">
+        当前用户：{{ user.username }}
+    </div>
+    <div class="lf" id="settle_up">
+        <a href="{% url 'index:order' %}">订单信息</a>
+    </div>
+</div>
+<section id="main">
+    <div class="layout">
+        <div class="fl u-4-3 lf">
+            <ul>
+                {% for p in products %}
+                <li class="channel-pro-item">
+                    <div class="p-img">
+                        <img src="{% static p.photo %}">
+                    </div>
+                    <div class="p-name lf"><a href="#">{{ p.name }}</a></div>
+                    <div class="p-shining">
+                        <div class="p-slogan">{{ p.slogan }}</div>
+                        <div class="p-promotions">{{ p.sell }}</div>
+                    </div>
+                    <div class="p-price">
+                        <em>¥</em><span>{{ p.price }}</span>
+                    </div>
+                    <div class="p-button lf">
+                        <a href="{% url 'index:index' %}?id={{ p.id }}">立即抢购</a>
+                    </div>
+                </li>
+                {% if forloop.counter == 2 %}
+                    <div class="hr-2"></div>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>Hello,{{ title }}</h3>
+<div>{{ value }}</div>
+<br>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

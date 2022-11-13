@@ -1,0 +1,15 @@
+<html>
+<body>
+    <div>
+    {# 设置模版缓存 #}
+    {% load cache %}
+    {# 10代表生命周期 #}
+    {# MyTemp代表缓存数据的cache_key字段 #}
+    {# using="MyDjango"代表缓存数据表 #}
+    {% cache 10 MyTemp using="MyDjango" %}
+        <div>Hello Django</div>
+    {# 缓存结束 #}
+    {% endcache %}
+    </div>
+</body>
+</html>

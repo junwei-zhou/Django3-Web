@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="lib/bootstrap.css">
+    <script src="lib/vue2.js"></script>
+	<script src="lib/axios.js"></script>
+    <script src="lib/jquery-3.3.1.js"></script>
+    <script src="lib/bootstrap.js"></script>
+    <script>
+        window.onload = function () {
+            vm = new Vue({
+                el: '#box',
+                data: {
+                    myData: [],
+                    username: '',
+                    nowIndex: -100,
+                    message: ''
+                },
+                // 定义js脚本
+                methods: {
+                    // 定义add函数，访问后台获取数据并写入数组myData
+                    add: function () {
+						axios.get('http://127.0.0.1:8000/',{params:{username:this.username}})
+                            .then(response => {this.myData = response.data;})
+                            .catch(function (error) {
+                                    console.log(error);
+                        });
+                    },
+                    // 定义deleteMsg函数，点击删除按钮即可删除当前数据，通过nowIndex确认行数
+                    deleteMsg: function (n) {
+                        if (n == -2) {
+                            this.myData = [];
+                        } else {
+                            this.myData.splice(n, 1);
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</head>
+
+<body>
+<div class="container" id="box">
+    <form role="form">
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <!-- v-model是创建双向数据绑定-->
+            <input type="text" id="username" class="form-control" placeholder="输入用户名" v-model="username">
+        </div>
+        <div>
+            <!--v-on指定触发的函数，即绑定事件-->
+            <input type="button" value="查询" class="btn btn-primary" v-on:click="add()">
+        </div>
+    </form>
+    <hr>
+    <table class="table table-bordered table-hover">
+        <div class="text-info text-center"><h2>产品信息表</h2></div>
+        <tr class="text-danger text-center">
+            <th>序号</th>
+            <th>用户</th>
+            <th>产品</th>
+			<th>类型</th>
+            <th>操作</th>
+        </tr>
+        <!--遍历输出vue定义的数组-->
+        <tr class="text-center" v-for="(item,index) in myData">
+            <th>{{index+1}}</th>
+            <th>{{item.username}}</th>
+            <th>{{item.name}}</th>
+			<th>{{item.type}}</th>
+            <th>
+                <!--data-target指向模态框-->
+                <!--为每个按钮设置变量nowIndex，用于识别行数-->
+                <button data-toggle="modal" class="btn btn-primary btn-sm" @click="nowIndex=index,message=0"
+                        data-target="#layer"
+                >删除
+                </button>
+            </th>
+        </tr>
+        <tr v-show="myData.length!=0">
+            <td colspan="5" class="text-right">
+                <!--变量nowIndex设为-2，在deleteMsg函数清空数组myData-->
+                <button data-toggle="modal" class="btn btn-danger btn-sm" @click="nowIndex=-2,message=-1" data-target="#layer">
+                    删除全部
+                </button>
+            </td>
+        </tr>
+        <tr v-show="myData.length==0">
+            <td colspan="5" class="text-center text-muted">
+                <p>暂无数据....</p>
+            </td>
+        </tr>
+    </table>
+    <!--模态框（提示框）-->
+    <div role="dialog" class="modal fade bs-example-modal-sm" id="layer">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--判断message，选择删除提示语-->
+                    <h4 class="modal-title" v-if="message==0">删除吗</h4>
+                    <h4 class="modal-title" v-else>删除全部吗</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-right">
+                    <!--触发删除函数deleteMsg-->
+                    <button data-dismiss="modal" class="btn btn-primary btn-sm">取消</button>
+                    <button data-dismiss="modal" class="btn btn-danger btn-sm" v-on:click="deleteMsg(nowIndex)">确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

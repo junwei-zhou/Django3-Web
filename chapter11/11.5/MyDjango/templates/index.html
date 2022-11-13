@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    {% load static %}
+    <title>分页功能</title>
+    <link rel="stylesheet" href="{% static "css/base.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/lists.css" %}">
+</head>
+<body class="app-route model-hkrouteinfo change-list">
+<div id="container">
+    <div id="content" class="flex">
+        <h1>分页功能</h1>
+        <div id="content-main">
+            <div class="module filtered" id="changelist">
+                <form id="changelist-form" method="post">
+                    <div class="results">
+                        <table id="result_list">
+                            <thead>
+                            <tr>
+                                <th class="action-checkbox-column">
+                                    <div class="text">
+                                        <span><input type="checkbox"/></span>
+                                    </div>
+                                </th>
+                                <th><div class="text">姓名</div></th>
+                                <th><div class="text">年龄</div></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for p in pages %}
+                                <tr>
+                                    <td class="action-checkbox">
+                                        <input type="checkbox" class="action-select">
+                                    </td>
+                                    <td>{{ p.name }}</td>
+                                    <td>{{ p.age }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="paginator">
+                        {# 上一页的路由地址 #}
+                        {% if pages.has_previous %}
+                            <a href="{% url 'index:index' pages.previous_page_number %}">上一页</a>
+                        {% endif %}
+                        {# 列出所有的路由地址 #}
+                        {% for n in pages.paginator.page_range %}
+                            {% if n == pages.number %}
+                                <span class="this-page">{{ pages.number }}</span>
+                            {% else %}
+                                <a href="{% url 'index:index' n %}">{{ n }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {# 下一页的路由地址 #}
+                        {% if pages.has_next %}
+                            <a href="{% url 'index:index' pages.next_page_number %}">下一页</a>
+                        {% endif %}
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

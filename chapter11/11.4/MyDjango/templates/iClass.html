@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>数据新增</title>
+<body>
+	<h3>数据新增</h3>
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="确定">
+	</form>
+</body>
+</html>

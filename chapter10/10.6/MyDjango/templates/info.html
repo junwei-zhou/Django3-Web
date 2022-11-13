@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+{% load static %}
+<title>用户信息</title>
+<link rel="stylesheet" href="{% static "css/common.css" %}">
+<link rel="stylesheet" href="{% static "css/home.css" %}">
+</head>
+<body class="member">
+    <div class="mod_profile js_user_data">
+        <div class="section_inner">
+        	{#模板上下文user是User或AnoymousUser对象#}
+	        {#user由模型MyUser实例化#}
+            {% if user.is_authenticated %}
+            <div class="profile__cover_link">
+                <img src="{% static "image/user.jpg" %}" class="profile__cover">
+            </div>
+            <h1 class="profile__tit">
+                <span class="profile__name">{{ user.username }}</span>
+            </h1>
+            {#模板上下文perms是模型Permission实例化对象#}
+	        {% if perms.user.vip_myuser %}
+                <div class="profile__name">VIP会员</div>
+            {% endif %}
+                <a href="{% url 'user:logout' %}" style="color:white;">退出登录</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

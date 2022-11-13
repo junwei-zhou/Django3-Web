@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form enctype="multipart/form-data" action="" method="post">
+   {% csrf_token %}
+   <input type="file" name="myfile" />
+   <br>
+   <input type="submit" value="上存文件"/>
+</form>
+</body>
+</html>

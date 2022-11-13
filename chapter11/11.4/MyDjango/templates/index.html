@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息提示</title>
+</head>
+<body>
+    {% if messages %}
+        <ul>
+            {% for m in messages %}
+                <li>消息内容：{{ m.message }}</li>
+                <div>消息类型：{{ m.level }}</div>
+                <div>消息级别：{{ m.level_tag }}</div>
+                <div>参数extra_tags的值：{{ m.extra_tags }}</div>
+                <div>extra_tags和level_tag组合值：{{ m.tags }}</div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <script>alert('暂无消息');</script>
+    {% endif %}
+</body>
+</html>

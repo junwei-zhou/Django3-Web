@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索引擎</title>
+    {# 导入CSS样式文件 #}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "common.css" %}">
+    <link rel="stylesheet" href="{% static "search.css" %}">
+</head>
+<body>
+<div class="header">
+    <div class="search-box">
+        <form action="" method="get">
+            <div class="search-keyword">
+                {# 搜索文本框必须命名为q #}
+                <input name="q" type="text" class="keyword">
+            </div>
+            <input type="submit" class="search-button" value="搜 索">
+        </form>
+    </div>
+</div>
+
+<div class="wrapper clearfix">
+<div class="listinfo">
+    <ul class="listheader">
+        <li class="name">产品名称</li>
+        <li class="weight">重量</li>
+        <li class="describe">描述</li>
+    </ul>
+    <ul class="ullsit">
+        {# 列出当前分页所对应的数据内容 #}
+        {% if query %}
+            {# 导入自带高亮功能 #}
+            {% load highlight %}
+            {% for item in page_obj.object_list %}
+            <li>
+                <div class="item">
+                    <div class="nameinfo">{% highlight item.object.name with query %}</div>
+                    <div class="weightinfo">{{item.object.weight}}</div>
+                    <div class="describeinfo">{% highlight item.object.describe with query %}</div>
+                </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            {% for item in page_obj.object_list %}
+                <li>
+                    <div class="item">
+                        <div class="nameinfo">{{ item.name }}</div>
+                        <div class="weightinfo">{{item.weight}}</div>
+                        <div class="describeinfo">{{ item.describe }}</div>
+                    </div>
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    {# 分页导航 #}
+    <div class="page-box">
+    <div class="pagebar" id="pageBar">
+    {# 上一页的路由地址 #}
+    {% if page_obj.has_previous %}
+        {% if query %}
+            <a href="{% url 'index:haystack'%}?q={{ query }}&page={{ page_obj.previous_page_number }}" class="prev">上一页</a>
+        {% else %}
+            <a href="{% url 'index:haystack'%}?page={{ page_obj.previous_page_number }}" class="prev">上一页</a>
+        {% endif %}
+    {% endif %}
+    {# 列出所有的路由地址 #}
+    {% for num in page_obj.paginator.page_range %}
+        {% if num == page_obj.number %}
+            <span class="sel">{{ page_obj.number }}</span>
+        {% else %}
+            {% if query %}
+                <a href="{% url 'index:haystack' %}?q={{ query }}&page={{ num }}">{{num}}</a>
+            {% else %}
+                <a href="{% url 'index:haystack' %}?page={{ num }}">{{num}}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {# 下一页的路由地址 #}
+    {% if page_obj.has_next %}
+        {% if query %}
+            <a href="{% url 'index:haystack' %}?q={{ query }}&page={{ page_obj.next_page_number }}" class="next">下一页</a>
+        {% else %}
+            <a href="{% url 'index:haystack' %}?page={{ page_obj.next_page_number }}" class="next">下一页</a>
+        {% endif %}
+    {% endif %}
+    </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

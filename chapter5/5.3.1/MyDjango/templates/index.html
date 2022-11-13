@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+<body>
+<ul>
+    {% for v in object_list %}
+        <li>{{ v.hireDate }}: {{ v.name }}</li>
+    {% endfor %}
+</ul>
+<p>
+    {% if previous_month %}
+        Previous Month: {{ previous_month }}
+    {% endif %}
+    <br>
+    {% if next_month %}
+        Next Month: {{ next_month }}
+    {% endif %}
+</p>
+</body>
+</html>

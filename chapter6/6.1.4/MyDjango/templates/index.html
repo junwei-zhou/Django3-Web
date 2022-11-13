@@ -1,0 +1,12 @@
+{#导入自定义过滤器文件myfilter#}
+{% load myfilter %}
+<!DOCTYPE html>
+<html>
+<body>
+<div>替换前：{{ value }}</div>
+<br>
+<div>替换后：
+{{ value | replace:'Python:Django' }}
+</div>
+</body>
+</html>

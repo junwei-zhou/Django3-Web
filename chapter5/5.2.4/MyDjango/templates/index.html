@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+<body>
+    <h3>{{ title }}-{{ personinfo.name }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div>删除{{ personinfo.name }}？</div>
+        <input type="submit" value="确定">
+    </form>
+</body>
+</html>
